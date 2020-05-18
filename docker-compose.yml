@@ -1,0 +1,45 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.5"
+services:
+
+    postgres:
+        restart: unless-stopped
+        build: phpdocker/postgres
+        container_name: ${PROJECT_NAME}-psql
+        env_file:
+            - ./.env
+
+    php:
+        restart: unless-stopped
+        depends_on:
+            - postgres
+        build: phpdocker/php-fpm
+        container_name: ${PROJECT_NAME}-php
+        working_dir: /application
+        volumes:
+            - ${APP_SRC}:/application
+            - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+            - ./phpdocker/php-fpm/autorun.sh:/autorun.sh
+
+    nginx:
+        restart: unless-stopped
+        depends_on:
+            - php
+        image: nginx:alpine
+        container_name: ${PROJECT_NAME}-nginx
+        working_dir: /application
+        volumes:
+            - ${APP_SRC}:/application
+            - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./logs/nginx:/var/log/nginx
+        ports:
+            - "8888:80"
+
+    adminer:
+        #restart: unless-stopped   
+        image: adminer
+        ports:
+            - "8889:8080"
+
