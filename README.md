@@ -1,5 +1,5 @@
 # docker compose for Symfony 5 with Postgresql 12
-A simple docker wrapper for Symfony 4.4.* with symfony binary. Initially composed by https://phpdocker.io/generator
+A simple docker wrapper for Symfony 4.4.*|5 with symfony binary.
 
 ## Usage
 - install Docker and docker-compose
