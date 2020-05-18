@@ -1,24 +1,20 @@
-# docker compose for Symfony 4
+# docker compose for Symfony 5 with Postgresql 12
 A simple docker wrapper for Symfony 4.4.* with symfony binary. Initially composed by https://phpdocker.io/generator
 
-## Components
-### master (as dev) brunch:
-* PHP 7.2
-* Xdebug
-* Mysql 5.7
-* Symfony CLI (inside php-fpm container)
+## Usage
+- install Docker and docker-compose
+- clone the repository
+- copy `.env.dist` into  `.env`
+- set up values for `APP_SRC` and `PROJECT_NAME`
+- run docker-compose up -d
+
+## Components of php container
+* PHP 7.4
+* Git
+* Symfony binary
 * composer
 
-### prod branch
-* Certbot
-* mysql-client
-* Xdebug is removed
-
-Other items the same as master (dev).
-
-## Certbot usage guide
-Go inside nginx container using this command:
-```bash
-docker-compose exec webserver bash
-```
-Then run `certbot --nginx`. After running Certbot answer its questions to create a HTTPS certificate.
+## Notes
+- it was tested only in Ubuntu/Debian Linux
+- this build was created for a dev environment
+- php container creates ssh-keys if you need to push commits from non-host env
