@@ -11,10 +11,40 @@ services:
         env_file:
             - ./.env
 
+    adminer:
+        container_name: ${PROJECT_NAME}-adminer
+        depends_on:
+            - postgres
+        restart: unless-stopped   
+        image: adminer
+        ports:
+            - "8889:8080"
+
+    mongo:
+        image: mongo:4.2-bionic
+        container_name: ${PROJECT_NAME}-mongo
+        restart: unless-stopped
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mongo
+            MONGO_INITDB_ROOT_PASSWORD: mongo
+  
+    mongo-express:
+        container_name: ${PROJECT_NAME}-mongo-express
+        depends_on:
+            - mongo
+        image: mongo-express
+        restart: unless-stopped
+        ports:
+            - 9000:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: mongo
+            ME_CONFIG_MONGODB_ADMINPASSWORD: mongo
+
     php:
         restart: unless-stopped
         depends_on:
             - postgres
+            - mongo
         build: phpdocker/php-fpm
         container_name: ${PROJECT_NAME}-php
         working_dir: /application
@@ -36,10 +66,3 @@ services:
             - ./logs/nginx:/var/log/nginx
         ports:
             - "8888:80"
-
-    adminer:
-        restart: unless-stopped   
-        image: adminer
-        ports:
-            - "8889:8080"
-
