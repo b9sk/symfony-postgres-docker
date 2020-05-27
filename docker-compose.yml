@@ -38,7 +38,7 @@ services:
             - "8888:80"
 
     adminer:
-        #restart: unless-stopped   
+        restart: unless-stopped   
         image: adminer
         ports:
             - "8889:8080"
