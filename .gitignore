@@ -2,3 +2,4 @@
 !.gkeep
 /.env
 *.log
+*.code-workspace

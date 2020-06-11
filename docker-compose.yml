@@ -47,6 +47,17 @@ services:
             - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
             - ./phpdocker/php-fpm/autorun.sh:/autorun.sh
 
+    node:
+        image: node:14-buster
+        depends_on:
+            - mongo
+        container_name: ${PROJECT_NAME}-node
+        working_dir: /parser
+        volumes: 
+            - ${APP_SRC}../parser:/parser
+        command: "node index.js"
+
+
     nginx:
         restart: unless-stopped
         depends_on:
