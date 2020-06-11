@@ -55,7 +55,10 @@ services:
         working_dir: /parser
         volumes: 
             - ${APP_SRC}../parser:/parser
-        command: "node index.js"
+        environment: 
+            STAGE: prod
+        # uncomment zis after initial docker-compose up --build
+        #command: "npm run prod"
 
 
     nginx:
